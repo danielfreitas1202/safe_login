@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("conexao.php");
+include("conexao.php"); 
 
 // Evita acesso direto
 if (!isset($_POST['email']) || !isset($_POST['senha'])) {
