@@ -1,13 +1,16 @@
 <?php
-// inicia a sessão
 session_start();
+include("conexao.php");
 
-// destrói todos os dados da sessão
+if (isset($_SESSION['id_usuario'])) {
+    $id = $_SESSION['id_usuario'];
+
+    mysqli_query($conn, "INSERT INTO log (id_usuario, acao, data_hora) 
+                         VALUES ($id, 'logout', NOW())");
+}
+
 session_destroy();
 
-// mensagem simples
-echo "Você saiu do sistema.";
-
-// link para voltar
-echo '<br><a href="index.html">Voltar para login</a>';
+header("Location: index.php");
+exit;
 ?>
