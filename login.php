@@ -1,49 +1,46 @@
 <?php
 session_start();
-// recebe dados do formulário
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!isset($_SESSION['tentativas'])) {
-        $_SESSION['tentativas'] = 0;
-    }
+include("conexao.php");
 
-    // remove espaços antes/depois
-    $email = trim($_POST['email']);
-    $senha = trim($_POST['senha']);
+// Evita acesso direto
+if (!isset($_POST['email']) || !isset($_POST['senha'])) {
+    header("Location: index.php");
+    exit;
+}
 
-    // verifica se há campos vazios
-    if (empty($email) || empty($senha)) {
-        echo "Preencha todos os campos";
-        exit; // interrompe o script
-    }
+$email = $_POST['email'];
+$senha = md5($_POST['senha']);
+$ip = $_SERVER['REMOTE_ADDR'];
 
-    $usuarios = [
-        "ana@email.com" => ["senha" => "123", "nivel" => "RH"],
-        "pedro@email.com" => ["senha" => "456", "nivel" => "Admin"],
-        "daniel@email.com" => ["senha" => "789", "nivel" => "suporte"]
-    ];
+// Busca usuário (CORRIGIDO)
+$sql = "SELECT id_usuario, nivel, senha_hash, ativo 
+        FROM usuario 
+        WHERE email = '$email'";
 
-    // verifica usuário e senha
-    if (isset($usuarios[$email]) && $usuarios[$email]['senha'] == $senha) {
-        $_SESSION['tentativas'] = 0;
+$result = mysqli_query($conn, $sql);
 
-        // armazena dados na sessão (login persistente)
-        $_SESSION['usuario'] = $email;
-        $_SESSION['nivel'] = $usuarios[$email]['nivel'];
-
-        // redireciona para área logada
-        header("Location: painel.php");
-        exit;
-
-    } else {
-        // usuário não encontrado
-        $_SESSION['tentativas']++;
-        if ($_SESSION['tentativas'] >= 3) {
-            header("Location: block.php");
-            $_SESSION['tentativas'] = 0;
+if (mysqli_num_rows($result) > 0) {
+    
+    $user = mysqli_fetch_assoc($result);
+    
+    if ($user['senha_hash'] == $senha && $user['ativo'] == 1) {
+        
+        $_SESSION['id_usuario'] = $user['id_usuario'];
+        $_SESSION['nivel'] = $user['nivel'];
+        
+        if ($user['nivel'] == 'admin') {
+            header("Location: painel_admin.php");
+        } else {
+            header("Location: painel_user.php");
         }
+        
         exit;
+        
+    } else {
+        echo "Login inválido ou usuário bloqueado.";
     }
-
-
+    
+} else {
+    echo "Usuário não encontrado.";
 }
 ?>
