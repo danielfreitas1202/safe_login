@@ -13,7 +13,8 @@ $senha = md5($_POST['senha']);
 $nivel = $_POST['nivel'];
 $ativo = $_POST['ativo'];
 
-$sql = "QUAL COMANDO SQL COLOCAR AQUI?";
+$sql = "INSERT INTO usuario (nome, email, senha_hash, nivel, ativo, data_criacao) 
+        VALUES ('$nome', '$email', '$senha', '$nivel', '$ativo', NOW())";
 
 $result = mysqli_query($conn, $sql);
 

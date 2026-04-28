@@ -4,7 +4,7 @@ include("conexao.php");
 
 // Evita acesso direto
 if (!isset($_POST['email']) || !isset($_POST['senha'])) {
-    header("Location: index.php");
+    header("Location: index.html");
     exit;
 }
 
