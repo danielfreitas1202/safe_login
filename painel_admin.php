@@ -21,4 +21,4 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['nivel'] != 'admin') {
 <a href="logout.php">Sair</a>
 
 </body>
-</html>
+</html> 

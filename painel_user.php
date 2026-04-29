@@ -8,7 +8,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['nivel'] != 'user') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
     <title>Painel Usuário</title>
 </head>

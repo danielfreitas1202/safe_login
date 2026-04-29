@@ -19,7 +19,7 @@ $sql = "INSERT INTO usuario (nome, email, senha_hash, nivel, ativo, data_criacao
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
-    echo "Usuário cadastrado com sucesso!<br>";
+    echo "Usuário cadastrado com sucesso!<br>"; 
     echo "<a href='listar_usuarios.php'>Ver usuários</a>";
 } else {
     echo "Erro: " . mysqli_error($conn);
