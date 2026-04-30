@@ -12,14 +12,19 @@ $email = trim($_POST['email']);
 $senha = trim(md5($_POST['senha'])); //Muda o tipo de criptografia
 $ip = $_SERVER['REMOTE_ADDR'];
 
-// verifica se há campos vazios
-if (empty($email) || empty($senha)) {
-    echo "Preencha todos os campos";
-    exit; // interrompe o script
+if (empty($email)) {
+    $erros['email'] = "Preencha o email";
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $erros['email'] = "Email inválido";
 }
-// valida formato do email
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo "Email inválido";
+
+if (empty($senha)) {
+    $erros['senha'] = "Preencha a senha";
+}
+
+if (!empty($erros)) {
+    $_SESSION['erros'] = $erros;
+    header("Location: index.php");
     exit;
 }
 
