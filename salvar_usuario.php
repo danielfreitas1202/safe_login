@@ -9,7 +9,7 @@ if (!isset($_POST['nome']) || !isset($_POST['email']) || !isset($_POST['senha'])
 
 $nome = $_POST['nome'];
 $email = $_POST['email'];
-$senha = md5($_POST['senha']);
+$senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 $nivel = $_POST['nivel'];
 $ativo = $_POST['ativo'];
 

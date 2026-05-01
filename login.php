@@ -4,12 +4,12 @@ include("conexao.php");
 
 // Evita acesso direto
 if (!isset($_POST['email']) || !isset($_POST['senha'])) {
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
 $email = trim($_POST['email']);
-$senha = trim(md5($_POST['senha'])); //Muda o tipo de criptografia
+$senha = trim($_POST['senha']); 
 $ip = $_SERVER['REMOTE_ADDR'];
 
 if (empty($email)) {
@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
     
     $user = mysqli_fetch_assoc($result);
     
-    if ($user['senha_hash'] == $senha && $user['ativo'] == 1) {
+    if (password_verify($senha, $user['senha_hash']) && $user['ativo'] == 1) {
         
         $_SESSION['id_usuario'] = $user['id_usuario'];
         $_SESSION['nivel'] = $user['nivel'];
