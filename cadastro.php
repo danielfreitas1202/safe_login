@@ -1,34 +1,74 @@
+<?php
+session_start();
+$erros = $_SESSION['erros'] ?? [];
+unset($_SESSION['erros']);
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Cadastro de Usuário</title>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Cadastrar Usuário</h2>
+<div class="login-container">
+    <h2>Cadastrar Usuário</h2>
 
-<form method="POST" action="salvar_usuario.php">
-    Nome: <input type="text" name="nome" required><br><br>
-    Email: <input type="email" name="email" required><br><br>
-    Senha: <input type="password" name="senha" required><br><br>
+    <form method="POST" action="salvar_usuario.php">
 
-    Nível:
-    <select name="nivel">
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-    </select><br><br>
+        <div class="input-group">
+            <label>Nome:</label>
+            <input type="text" name="nome" required>
+            <?php if (isset($erros['nome'])): ?>
+                <small style="color:red;"><?= $erros['nome'] ?></small>
+            <?php endif; ?>
+        </div>
 
-    Ativo:
-    <select name="ativo">
-        <option value="1">Sim</option>
-        <option value="0">Não</option>
-    </select><br><br>
+        <div class="input-group">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <?php if (isset($erros['email'])): ?>
+                <small style="color:red;"><?= $erros['email'] ?></small>
+            <?php endif; ?>
+        </div>
 
-    <button type="submit">Salvar</button>
-</form>
+        <div class="input-group">
+            <label>Senha:</label>
+            <input type="password" name="senha" required>
+            <?php if (isset($erros['senha'])): ?>
+                <small style="color:red;"><?= $erros['senha'] ?></small>
+            <?php endif; ?>
+        </div>
 
-<br>
-<a href="listar_usuarios.php">Ver usuários</a>
+        <div class="input-group">
+            <label>Nível:</label>
+            <select name="nivel">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Ativo:</label>
+            <select name="ativo">
+                <option value="1">Sim</option>
+                <option value="0">Não</option>
+            </select>
+        </div>
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    <div style="margin-top: 10px;">
+        <a href="listar_usuarios.php">Ver usuários</a>
+    </div>
+
+    <div class="footer"> 
+        © 2026 - Seu Sistema
+    </div>
+</div>
 
 </body>
 </html>

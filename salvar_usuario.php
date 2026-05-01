@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("conexao.php");
 
 // Evita acesso direto
@@ -12,6 +13,26 @@ $email = $_POST['email'];
 $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 $nivel = $_POST['nivel'];
 $ativo = $_POST['ativo'];
+
+if (empty($nome)) {
+    $erros['nome'] = "Nome é obrigatório";
+}
+
+if (empty($email)) {
+    $erros['email'] = "Preencha o email";
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $erros['email'] = "Email inválido";
+}
+
+if (empty($_POST['senha'])) {
+    $erros['senha'] = "Senha obrigatória";
+}
+
+if (!empty($erros)) {
+    $_SESSION['erros'] = $erros;
+    header("Location: cadastro.php");
+    exit;
+}
 
 $stmt = mysqli_prepare($conn, 
     "INSERT INTO usuario (nome, email, senha_hash, nivel, ativo, data_criacao) 
