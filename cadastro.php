@@ -45,7 +45,10 @@ unset($_SESSION['erros']);
         <div class="input-group">
             <label>Nível:</label>
             <select name="nivel">
-                <option value="user">User</option>
+                <option value="user">Nível 1</option>
+                <option value="user">Nível 2</option>
+                <option value="user">Nível 3</option>
+                <option value="user">Sub Admin</option>
                 <option value="admin">Admin</option>
             </select>
         </div>
