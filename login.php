@@ -2,6 +2,32 @@
 session_start();
 include("conexao.php"); 
 
+// configurações
+$limite_tentativas = 3;
+$tempo_bloqueio = 600; // 10 minutos em segundos
+
+// cria variáveis se não existirem
+if (!isset($_SESSION['tentativas'])) {
+    $_SESSION['tentativas'] = 0;
+}
+
+if (!isset($_SESSION['bloqueado_ate'])) {
+    $_SESSION['bloqueado_ate'] = 0;
+}
+
+// verifica bloqueio
+if (time() < $_SESSION['bloqueado_ate']) {
+
+    $tempo_restante = $_SESSION['bloqueado_ate'] - time();
+    $minutos = ceil($tempo_restante / 60);
+
+    $_SESSION['erros']['login'] =
+        "Muitas tentativas. Tente novamente em $minutos minuto(s).";
+
+    header("Location: index.php");
+    exit;
+}
+
 // Evita acesso direto
 if (!isset($_POST['email']) || !isset($_POST['senha'])) {
     header("Location: index.php");
@@ -11,6 +37,8 @@ if (!isset($_POST['email']) || !isset($_POST['senha'])) {
 $email = trim($_POST['email']);
 $senha = trim($_POST['senha']); 
 $ip = $_SERVER['REMOTE_ADDR'];
+
+$erros = [];
 
 if (empty($email)) {
     $erros['email'] = "Preencha o email";
@@ -35,7 +63,8 @@ $sql = "SELECT id_usuario, nivel, senha_hash, ativo
 
 $result = mysqli_query($conn, $sql);
 
-//não tem limite de tentativas de login 
+//não tem limite de tentativas de login
+
 
 //não armazena dados de quem tenta fazer login
 
@@ -44,6 +73,9 @@ if (mysqli_num_rows($result) > 0) {
     $user = mysqli_fetch_assoc($result);
     
     if (password_verify($senha, $user['senha_hash']) && $user['ativo'] == 1) {
+        
+        $_SESSION['tentativas'] = 0;
+        $_SESSION['bloqueado_ate'] = 0;
         
         $_SESSION['id_usuario'] = $user['id_usuario'];
         $_SESSION['nivel'] = $user['nivel'];
@@ -57,10 +89,47 @@ if (mysqli_num_rows($result) > 0) {
         exit;
         
     } else {
-        echo "Login inválido ou usuário bloqueado.";
+        $_SESSION['tentativas']++;
+
+        // atingiu limite?
+        if ($_SESSION['tentativas'] >= $limite_tentativas) {
+
+            $_SESSION['bloqueado_ate'] = time() + $tempo_bloqueio;
+
+            $_SESSION['erros']['login'] = "Você excedeu o limite de tentativas. Aguarde 10 minutos.";
+
+        } else {
+
+        $restantes = $limite_tentativas - $_SESSION['tentativas'];
+
+        $_SESSION['erros']['login'] =
+        "Login inválido. Restam $restantes tentativa(s).";
+    }
+
+    header("Location: index.php");
+    exit;
     }
     
 } else {
-    echo "Usuário não encontrado.";
+
+    $_SESSION['tentativas']++;
+
+    if ($_SESSION['tentativas'] >= $limite_tentativas) {
+
+        $_SESSION['bloqueado_ate'] = time() + $tempo_bloqueio;
+
+        $_SESSION['erros']['login'] =
+            "Você excedeu o limite de tentativas. Aguarde 10 minutos.";
+
+    } else {
+
+        $restantes = $limite_tentativas - $_SESSION['tentativas'];
+
+        $_SESSION['erros']['login'] =
+            "Login inválido. Restam $restantes tentativa(s).";
+    }
+
+    header("Location: index.php");
+    exit;
 }
 ?>

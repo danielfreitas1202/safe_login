@@ -18,6 +18,8 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['nivel'] != 'admin') {
 
 <p>Bem-vindo, administrador!</p>
 
+<a href="cadastro.php" class="btn-cadastro">Cadastrar</a>
+
 <a href="logout.php">Sair</a>
 
 </body>

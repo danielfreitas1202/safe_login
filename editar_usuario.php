@@ -70,7 +70,10 @@ if (isset($_POST['id_usuario'])) {
     Nível:
     <select name="nivel">
         <option value="admin" <?php if ($user['nivel'] == 'admin') echo "selected"; ?>>Admin</option>
-        <option value="user" <?php if ($user['nivel'] == 'user') echo "selected"; ?>>User</option>
+        <option value="sub admin" <?php if ($user['nivel'] == 'sub admin') echo "selected"; ?>>Sub Admin</option>
+        <option value="nivel1" <?php if ($user['nivel'] == 'nivel1') echo "selected"; ?>>nivel1</option>
+        <option value="nivel2" <?php if ($user['nivel'] == 'nivel2') echo "selected"; ?>>nivel2</option>
+        <option value="nivel3" <?php if ($user['nivel'] == 'nivel3') echo "selected"; ?>>nivel3</option>
     </select>
     <br><br>
 

@@ -18,6 +18,11 @@ unset($_SESSION['erros']);
 <div class="login-container">
     <h2>Login</h2>
 
+    <?php if (isset($erros['login'])): ?>
+        <p style="color:red; margin-bottom:15px;">
+            <?= $erros['login'] ?>
+        </p>
+    <?php endif; ?>
     <form action="login.php" method="POST">
         
     <div class="input-group">
@@ -40,7 +45,6 @@ unset($_SESSION['erros']);
 
         <button type="submit">Entrar</button>
     </form>
-    <a href="cadastro.php" class="btn-cadastro">Cadastrar</a>
 
     <div class="footer"> 
         © 2026 - Seu Sistema
