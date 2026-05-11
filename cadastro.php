@@ -15,6 +15,7 @@ unset($_SESSION['erros']);
 
 <div class="login-container">
     <h2>Cadastrar Usuário</h2>
+    <a href="painel_admin.php">Voltar</a>
 
     <form method="POST" action="salvar_usuario.php">
 
@@ -45,10 +46,10 @@ unset($_SESSION['erros']);
         <div class="input-group">
             <label>Nível:</label>
             <select name="nivel">
-                <option value="user">Nível 1</option>
-                <option value="user">Nível 2</option>
-                <option value="user">Nível 3</option>
-                <option value="user">Sub Admin</option>
+                <option value="nivel1">Nível 1</option>
+                <option value="nivel2">Nível 2</option>
+                <option value="nivel3">Nível 3</option>
+                <option value="subadmin">Sub Admin</option>
                 <option value="admin">Admin</option>
             </select>
         </div>

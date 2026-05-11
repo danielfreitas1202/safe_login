@@ -15,6 +15,7 @@ $result = mysqli_query($conn, $sql);
 <h2>Usuários cadastrados</h2>
 
 <a href="cadastro.php">Novo usuário</a><br><br>
+<a href="painel_admin.php">Voltar</a>
 
 <table border="1">
 <tr>
