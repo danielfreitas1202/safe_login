@@ -2,6 +2,27 @@
 session_start();
 include("conexao.php"); 
 
+//registrar as tentativas de login
+function registrarTentativa($conn, $id_usuario, $email, $sucesso, $ip) {
+
+    $stmt = mysqli_prepare($conn,
+        "INSERT INTO tentativa_login 
+        (id_usuario, email_informado, data_hora, sucesso, ip)
+        VALUES (?, ?, NOW(), ?, ?)"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "isis",
+        $id_usuario,
+        $email,
+        $sucesso,
+        $ip
+    );
+
+    mysqli_stmt_execute($stmt);
+}
+
 // configurações
 $limite_tentativas = 3;
 $tempo_bloqueio = 600; // 10 minutos em segundos
@@ -73,6 +94,14 @@ if (mysqli_num_rows($result) > 0) {
     $user = mysqli_fetch_assoc($result);
     
     if (password_verify($senha, $user['senha_hash']) && $user['ativo'] == 1) {
+
+        registrarTentativa(
+            $conn,
+            $user['id_usuario'],
+            $email,
+            1,
+            $ip
+        );
         
         $_SESSION['tentativas'] = 0;
         $_SESSION['bloqueado_ate'] = 0;
@@ -89,6 +118,15 @@ if (mysqli_num_rows($result) > 0) {
         exit;
         
     } else {
+        
+        registrarTentativa(
+            $conn,
+            $user['id_usuario'],
+            $email,
+            0,
+            $ip
+        );
+        
         $_SESSION['tentativas']++;
 
         // atingiu limite?
@@ -112,14 +150,21 @@ if (mysqli_num_rows($result) > 0) {
     
 } else {
 
+    registrarTentativa(
+        $conn,
+        null,
+        $email,
+        0,
+        $ip
+    );
+
     $_SESSION['tentativas']++;
 
     if ($_SESSION['tentativas'] >= $limite_tentativas) {
 
         $_SESSION['bloqueado_ate'] = time() + $tempo_bloqueio;
 
-        $_SESSION['erros']['login'] =
-            "Você excedeu o limite de tentativas. Aguarde 10 minutos.";
+        $_SESSION['erros']['login'] = "Você excedeu o limite de tentativas. Aguarde 10 minutos.";
 
     } else {
 
