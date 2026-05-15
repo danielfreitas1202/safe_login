@@ -84,11 +84,6 @@ $sql = "SELECT id_usuario, nivel, senha_hash, ativo
 
 $result = mysqli_query($conn, $sql);
 
-//não tem limite de tentativas de login
-
-
-//não armazena dados de quem tenta fazer login
-
 if (mysqli_num_rows($result) > 0) {
     
     $user = mysqli_fetch_assoc($result);

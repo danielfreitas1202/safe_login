@@ -8,8 +8,10 @@ if (!isset($_POST['nome']) || !isset($_POST['email']) || !isset($_POST['senha'])
     exit;
 }
 
-$nome = $_POST['nome'];
-$email = $_POST['email'];
+$nome = $_POST['nome']??"";
+$nome = htmlspecialchars($nome);
+$email = $_POST['email']??"";
+$email = htmlspecialchars($email);
 $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 $nivel = $_POST['nivel'];
 $ativo = $_POST['ativo'];
