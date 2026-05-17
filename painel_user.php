@@ -15,7 +15,7 @@ $nivel = $_SESSION['nivel'];
 
     <h2>Pasta P</h2>
     <p>Conteúdo liberado para nível 1</p>
-    <a href="pe.php">Produtos Pronta Entrega</a>
+    <a href="pe.php">Clientes Personalizados</a>
     <a href="logout.php">Sair</a>
 
 <?php endif; ?>
@@ -24,7 +24,7 @@ $nivel = $_SESSION['nivel'];
 
     <h2>Pasta PE</h2>
     <p>Conteúdo liberado para nível 2</p>
-    <a href="pasta_pe.php">Produtos Pronta Entrega</a>
+    <a href="pasta_pe.php">Clientes Pronta Entrega</a>
     <a href="logout.php">Sair</a>
 
 <?php endif; ?>
@@ -33,9 +33,11 @@ $nivel = $_SESSION['nivel'];
 
     <h2>Pasta P</h2>
     <p>Conteúdo nível 1</p>
+    <a href="pe.php">Clientes Personalizados</a>
 
     <h2>Pasta PE</h2>
     <p>Conteúdo nível 2</p>
+    <a href="pasta_pe.php">Clientes Pronta Entrega</a>
 
     <a href="logout.php">Sair</a>
 

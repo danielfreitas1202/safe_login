@@ -8,7 +8,7 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 //para evitar alguem tentar acessar a pagina manualmente
-if ($_SESSION['nivel'] != 'nivel2' &&
+if ($_SESSION['nivel'] != 'nivel1' &&
     $_SESSION['nivel'] != 'nivel3') {
 
     die("Acesso negado");
@@ -21,7 +21,7 @@ if ($_SESSION['nivel'] != 'nivel2' &&
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>clientes_pe</title>
+    <title>clientes_pp</title>
 
     <!-- ligação com o CSS -->
     <link rel="stylesheet" href="style.css">
@@ -40,19 +40,19 @@ if ($_SESSION['nivel'] != 'nivel2' &&
     </thead>
     <tbody>
         <tr>
-            <td>Adriana</td>
-            <td>45.698.324/0001-44</td>
-            <td>adriana@gmail.com</td>
+            <td>Alex</td>
+            <td>33.456.129/0001-81</td>
+            <td>alex@gmail.com</td>
         </tr>
         <tr>
-            <td>Bernardo</td>
-            <td>12.834.765/0001-09</td>
-            <td>bernardo@gmail.com</td>
+            <td>Vitória</td>      
+            <td>29.543.876/0001-11</td>
+            <td>vitória@gmail.com</td>
         </tr>
         <tr>
-            <td>Valéria</td>      
-            <td>87.213.904/0001-57</td>
-            <td>valéria@gmail.com</td>
+            <td>Vívian</td>
+            <td>61.094.332/0001-23</td>
+            <td>vivian@gmail.com</td>
         </tr>
     </tbody>
     </table>
