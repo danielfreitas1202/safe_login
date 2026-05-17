@@ -9,36 +9,80 @@ if (!isset($_SESSION['id_usuario'])) {
 $nivel = $_SESSION['nivel'];
 ?>
 
-<h1>Painel do Usuário</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Usuário</title>
 
-<?php if ($nivel == 'nivel1'): ?>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <h2>Pasta P</h2>
-    <p>Conteúdo liberado para nível 1</p>
-    <a href="pe.php">Clientes Personalizados</a>
-    <a href="logout.php">Sair</a>
+<body>
 
-<?php endif; ?>
+<div class="dashboard-container">
 
-<?php if ($nivel == 'nivel2'): ?>
+    <div class="dashboard-header">
+        <h1>Painel do Usuário</h1>
 
-    <h2>Pasta PE</h2>
-    <p>Conteúdo liberado para nível 2</p>
-    <a href="pasta_pe.php">Clientes Pronta Entrega</a>
-    <a href="logout.php">Sair</a>
+        <p>
+            Bem-vindo,
+            <strong>
+                <?php echo htmlspecialchars($_SESSION['nome']); ?>
+            </strong>
+        </p>
+    </div>
 
-<?php endif; ?>
+    <div class="dashboard-grid">
 
-<?php if ($nivel == 'nivel3'): ?>
+        <?php if ($nivel == 'nivel1'): ?>
 
-    <h2>Pasta P</h2>
-    <p>Conteúdo nível 1</p>
-    <a href="pe.php">Clientes Personalizados</a>
+            <a href="pasta_p.php" class="dashboard-card">
+                <div class="card-icon">🎨</div>
+                <h3>Clientes Personalizados</h3>
+                <p>Conteúdo liberado para nível 1</p>
+            </a>
 
-    <h2>Pasta PE</h2>
-    <p>Conteúdo nível 2</p>
-    <a href="pasta_pe.php">Clientes Pronta Entrega</a>
+        <?php endif; ?>
 
-    <a href="logout.php">Sair</a>
 
-<?php endif; ?>
+        <?php if ($nivel == 'nivel2'): ?>
+
+            <a href="pasta_pe.php" class="dashboard-card">
+                <div class="card-icon">📦</div>
+                <h3>Clientes Pronta Entrega</h3>
+                <p>Conteúdo liberado para nível 2</p>
+            </a>
+
+        <?php endif; ?>
+
+
+        <?php if ($nivel == 'nivel3'): ?>
+
+            <a href="pasta_p.php" class="dashboard-card">
+                <div class="card-icon">🎨</div>
+                <h3>Clientes Personalizados</h3>
+                <p>Acesso completo</p>
+            </a>
+
+            <a href="pasta_pe.php" class="dashboard-card">
+                <div class="card-icon">📦</div>
+                <h3>Clientes Pronta Entrega</h3>
+                <p>Acesso completo</p>
+            </a>
+
+        <?php endif; ?>
+
+        <a href="logout.php" class="dashboard-card logout-card">
+            <div class="card-icon">🚪</div>
+            <h3>Sair</h3>
+            <p>Encerrar sessão</p>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

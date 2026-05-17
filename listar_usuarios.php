@@ -7,57 +7,104 @@ $result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuários</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Usuários cadastrados</h2>
+<div class="page-container">
 
-<a href="cadastro.php">Novo usuário</a><br><br>
-<a href="painel_admin.php">Voltar</a>
+    <div class="top-bar">
+        <h2>Usuários cadastrados</h2>
 
-<table border="1">
-<tr>
-    <th>ID</th>
-    <th>Nome</th>
-    <th>Email</th>
-    <th>Nível</th>
-    <th>Ativo</th>
-    <th>Ações</th>
-</tr>
+        <div class="actions">
+            <a class="btn btn-primary" href="cadastro.php">Novo usuário</a>
+            <a class="btn btn-secondary" href="painel_admin.php">Voltar</a>
+        </div>
+    </div>
 
-<?php if ($result && mysqli_num_rows($result) > 0) { ?>
+    <div class="table-container">
 
-    <?php while($row = mysqli_fetch_assoc($result)) { ?>
+        <table class="user-table">
 
-    <tr>
-        <td><?php echo $row['id_usuario']; ?></td>
-        <td><?php echo $row['nome']; ?></td>
-        <td><?php echo $row['email']; ?></td>
-        <td><?php echo $row['nivel']; ?></td>
-        <td><?php echo $row['ativo']; ?></td>
-        <td>
-            <a href="editar_usuario.php?id=<?php echo $row['id_usuario']; ?>">Editar</a> |
-            <?php if ($_SESSION['nivel'] == 'admin') { ?>
-                <a href="excluir_usuario.php?id=<?php echo $row['id_usuario']; ?>">Excluir</a>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Nível</th>
+                    <th>Ativo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            <?php if ($result && mysqli_num_rows($result) > 0) { ?>
+
+                <?php while($row = mysqli_fetch_assoc($result)) { ?>
+
+                <tr>
+                    <td><?php echo $row['id_usuario']; ?></td>
+                    <td><?php echo $row['nome']; ?></td>
+                    <td><?php echo $row['email']; ?></td>
+                    <td>
+                        <span class="badge nivel">
+                            <?php echo $row['nivel']; ?>
+                        </span>
+                    </td>
+
+                    <td>
+                        <?php if($row['ativo'] == 1) { ?>
+                            <span class="badge ativo">Ativo</span>
+                        <?php } else { ?>
+                            <span class="badge inativo">Inativo</span>
+                        <?php } ?>
+                    </td>
+
+                    <td class="table-actions">
+
+                        <a class="table-btn edit"
+                           href="editar_usuario.php?id=<?php echo $row['id_usuario']; ?>">
+                           Editar
+                        </a>
+
+                        <?php if ($_SESSION['nivel'] == 'admin') { ?>
+
+                            <a class="table-btn delete"
+                               href="excluir_usuario.php?id=<?php echo $row['id_usuario']; ?>">
+                               Excluir
+                            </a>
+
+                        <?php } ?>
+
+                    </td>
+                </tr>
+
+                <?php } ?>
+
+            <?php } else { ?>
+
+                <tr>
+                    <td colspan="6" class="empty-table">
+                        Nenhum usuário encontrado.
+                    </td>
+                </tr>
+
             <?php } ?>
 
-        </td>
-    </tr>
+            </tbody>
 
-    <?php } ?>
+        </table>
 
-<?php } else { ?>
+    </div>
 
-<tr>
-    <td colspan="6">Nenhum usuário encontrado.</td>
-</tr>
-
-<?php } ?>
-
-</table>
+</div>
 
 </body>
 </html>
