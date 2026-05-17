@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("conexao.php");
 
 $sql = "SELECT * FROM usuario ORDER BY id_usuario DESC";
@@ -39,7 +40,10 @@ $result = mysqli_query($conn, $sql);
         <td><?php echo $row['ativo']; ?></td>
         <td>
             <a href="editar_usuario.php?id=<?php echo $row['id_usuario']; ?>">Editar</a> |
-            <a href="excluir_usuario.php?id=<?php echo $row['id_usuario']; ?>">Excluir</a>
+            <?php if ($_SESSION['nivel'] == 'admin') { ?>
+                <a href="excluir_usuario.php?id=<?php echo $row['id_usuario']; ?>">Excluir</a>
+            <?php } ?>
+
         </td>
     </tr>
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("conexao.php");
 
 // ==========================
@@ -25,7 +26,9 @@ if (isset($_POST['id_usuario'])) {
 
     $id = $_POST['id_usuario'];
     $nome = $_POST['nome'];
+    $nome = htmlspecialchars($nome);
     $email = $_POST['email'];
+    $email = htmlspecialchars($email);
     $nivel = $_POST['nivel'];
     $ativo = $_POST['ativo'];
 
@@ -69,8 +72,10 @@ if (isset($_POST['id_usuario'])) {
 
     Nível:
     <select name="nivel">
-        <option value="admin" <?php if ($user['nivel'] == 'admin') echo "selected"; ?>>Admin</option>
-        <option value="sub admin" <?php if ($user['nivel'] == 'sub admin') echo "selected"; ?>>Sub Admin</option>
+        <?php if ($_SESSION['nivel'] == 'admin') { ?>
+            <option value="admin" <?php if ($user['nivel'] == 'admin') echo "selected"; ?>>Admin</option>
+            <option value="sub admin" <?php if ($user['nivel'] == 'sub admin') echo "selected"; ?>>Sub Admin</option>
+        <?php } ?>
         <option value="nivel1" <?php if ($user['nivel'] == 'nivel1') echo "selected"; ?>>nivel1</option>
         <option value="nivel2" <?php if ($user['nivel'] == 'nivel2') echo "selected"; ?>>nivel2</option>
         <option value="nivel3" <?php if ($user['nivel'] == 'nivel3') echo "selected"; ?>>nivel3</option>

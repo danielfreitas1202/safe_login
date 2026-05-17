@@ -1,7 +1,14 @@
 <?php
 session_start();
+//para verificar erros
 $erros = $_SESSION['erros'] ?? [];
 unset($_SESSION['erros']);
+
+if ($_SESSION['nivel'] != 'admin' && $_SESSION['nivel'] != 'subadmin') {
+
+    die("Acesso negado");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -49,8 +56,12 @@ unset($_SESSION['erros']);
                 <option value="nivel1">Nível 1</option>
                 <option value="nivel2">Nível 2</option>
                 <option value="nivel3">Nível 3</option>
-                <option value="subadmin">Sub Admin</option>
-                <option value="admin">Admin</option>
+                <?php if ($_SESSION['nivel'] == 'admin') { ?>
+
+                    <option value="subadmin">Sub Admin</option>
+                    <option value="admin">Admin</option>
+
+                <?php } ?>
             </select>
         </div>
 

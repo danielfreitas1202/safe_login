@@ -77,7 +77,7 @@ if (!empty($erros)) {
     exit;
 }
 
-// Busca usuário (CORRIGIDO)
+// Busca usuário
 $sql = "SELECT id_usuario, nivel, senha_hash, ativo 
         FROM usuario 
         WHERE email = '$email'";
@@ -103,8 +103,9 @@ if (mysqli_num_rows($result) > 0) {
         
         $_SESSION['id_usuario'] = $user['id_usuario'];
         $_SESSION['nivel'] = $user['nivel'];
+        $_SESSION['nome'] = $user['nome'];
         
-        if ($user['nivel'] == 'admin') {
+        if ($user['nivel'] == 'admin' || $user['nivel'] == 'subadmin') {
             header("Location: painel_admin.php");
         } else {
             header("Location: painel_user.php");
