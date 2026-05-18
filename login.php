@@ -78,7 +78,7 @@ if (!empty($erros)) {
 }
 
 // Busca usuário
-$sql = "SELECT id_usuario, nivel, senha_hash, ativo 
+$sql = "SELECT id_usuario, nome, nivel, senha_hash, ativo 
         FROM usuario 
         WHERE email = '$email'";
 
