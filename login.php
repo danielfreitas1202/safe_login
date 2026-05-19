@@ -23,7 +23,7 @@ function registrarTentativa($conn, $id_usuario, $email, $sucesso, $ip) {
     mysqli_stmt_execute($stmt);
 }
 
-// configurações
+// configurações do bloqueio
 $limite_tentativas = 3;
 $tempo_bloqueio = 600; // 10 minutos em segundos
 
@@ -61,6 +61,7 @@ $ip = $_SERVER['REMOTE_ADDR'];
 
 $erros = [];
 
+//evita que o usuario não preencha algum campo
 if (empty($email)) {
     $erros['email'] = "Preencha o email";
 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -80,7 +81,9 @@ if (!empty($erros)) {
 // Busca usuário
 $sql = "SELECT id_usuario, nome, nivel, senha_hash, ativo 
         FROM usuario 
-        WHERE email = '$email'";
+        WHERE email = ?";
+
+mysqli_stmt_bind_param($stmt, "s", $email);
 
 $result = mysqli_query($conn, $sql);
 
