@@ -83,9 +83,13 @@ $sql = "SELECT id_usuario, nome, nivel, senha_hash, ativo
         FROM usuario 
         WHERE email = ?";
 
+$stmt = mysqli_prepare($conn, $sql);
+
 mysqli_stmt_bind_param($stmt, "s", $email);
 
-$result = mysqli_query($conn, $sql);
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($result) > 0) {
     
